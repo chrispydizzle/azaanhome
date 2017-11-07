@@ -5,6 +5,23 @@ import time
 from datetime import timedelta
 from playsound import playsound
 
+
+def parse_time(collection, value):
+    the_time = datetime.datetime.strptime(collection[value], '%I:%M %p').replace(theTime.year, theTime.month,
+                                                                                 theTime.day)
+    print '%s, %s' % (value, the_time)
+    return the_time
+
+
+def check_time(first_call, current_time):
+    if current_time < datetime.datetime.now():
+        print 'fajr'
+        if not first_call:
+            playsound('azaan.wav')
+        return current_time.replace(year=datetime.MAXYEAR)
+    return
+
+
 if __name__ == '__main__':
     while True:
         print 'new cycle!'
@@ -16,21 +33,12 @@ if __name__ == '__main__':
         posts = json.loads(times.read())
         items = posts['items'][0]
         dateFor = datetime.datetime.strptime(items['date_for'], '%Y-%m-%d')
-        fajrTime = datetime.datetime.strptime(items['shurooq'], '%H:%M %p').replace(theTime.year, theTime.month,
-                                                                                    theTime.day)
-        dhuhrTime = datetime.datetime.strptime(items['dhuhr'], '%H:%M %p').replace(theTime.year, theTime.month,
-                                                                                   theTime.day)
-
-        dhuhrTime = dhuhrTime.replace(hour=dhuhrTime.hour + 12)
-
-        asrTime = datetime.datetime.strptime(items['asr'], '%H:%M %p').replace(theTime.year, theTime.month, theTime.day)
-        asrTime = asrTime.replace(hour=asrTime.hour + 12)
-        maghribTime = datetime.datetime.strptime(items['maghrib'], '%H:%M %p').replace(theTime.year, theTime.month,
-                                                                                       theTime.day)
-        maghribTime = maghribTime.replace(hour=maghribTime.hour + 12)
-        ishaTime = datetime.datetime.strptime(items['isha'], '%H:%M %p').replace(theTime.year, theTime.month,
-                                                                                 theTime.day)
-        ishaTime = ishaTime.replace(hour=ishaTime.hour + 12)
+        fajrTime = parse_time(items, 'fajr')
+        shrooqTime = parse_time(items, 'shurooq')
+        dhuhrTime = parse_time(items, 'dhuhr')
+        asrTime = parse_time(items, 'asr')
+        maghribTime = parse_time(items, 'maghrib')
+        ishaTime = parse_time(items, 'isha')
         first_time = True
         loops = 0
         while datetime.datetime.now() < (dateFor + timedelta(days=1)):
@@ -40,30 +48,12 @@ if __name__ == '__main__':
                 print 'fifteen minute check-in'
 
             theTime = datetime.datetime.now()
-            if fajrTime < theTime:
-                print 'fajr'
-                if not first_time:
-                    playsound('azaan.wav')
-                fajrTime = fajrTime.replace(year=datetime.MAXYEAR)
-            if dhuhrTime < theTime:
-                print 'dhuhr'
-                if not first_time:
-                    playsound('azaan.wav')
-                dhuhrTime = dhuhrTime.replace(year=datetime.MAXYEAR)
-            if asrTime < theTime:
-                print 'asr'
-                if not first_time:
-                    playsound('azaan.wav')
-                asrTime = asrTime.replace(year=datetime.MAXYEAR)
-            if maghribTime < theTime:
-                print 'maghrib'
-                if not first_time:
-                    playsound('azaan.wav')
-                maghribTime = maghribTime.replace(year=datetime.MAXYEAR)
-            if ishaTime < theTime:
-                print 'isha'
-                if not first_time:
-                    playsound('azaan.wav')
-                ishaTime = ishaTime.replace(year=datetime.MAXYEAR)
+            check_time(first_time, fajrTime)
+            check_time(first_time, shrooqTime)
+            check_time(first_time, dhuhrTime)
+            check_time(first_time, asrTime)
+            check_time(first_time, maghribTime)
+            check_time(first_time, ishaTime)
+
             first_time = False
             time.sleep(60)
