@@ -48,12 +48,12 @@ if __name__ == '__main__':
                 print 'fifteen minute check-in'
 
             theTime = datetime.datetime.now()
-            check_time(first_time, fajrTime)
-            check_time(first_time, shrooqTime)
-            check_time(first_time, dhuhrTime)
-            check_time(first_time, asrTime)
-            check_time(first_time, maghribTime)
-            check_time(first_time, ishaTime)
+            fajrTime = check_time(first_time, fajrTime)
+            shrooqTime = check_time(first_time, shrooqTime)
+            dhuhrTime = check_time(first_time, dhuhrTime)
+            asrTime = check_time(first_time, asrTime)
+            maghribTime = check_time(first_time, maghribTime)
+            ishaTime = check_time(first_time, ishaTime)
 
             first_time = False
             time.sleep(60)
