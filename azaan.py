@@ -19,7 +19,7 @@ def check_time(first_call, current_time):
         if not first_call:
             playsound('azaan.wav')
         return current_time.replace(year=datetime.MAXYEAR)
-    return
+    return current_time
 
 
 if __name__ == '__main__':
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
             theTime = datetime.datetime.now()
             fajrTime = check_time(first_time, fajrTime)
-            shrooqTime = check_time(first_time, shrooqTime)
+            # shrooqTime = check_time(first_time, shrooqTime)
             dhuhrTime = check_time(first_time, dhuhrTime)
             asrTime = check_time(first_time, asrTime)
             maghribTime = check_time(first_time, maghribTime)
