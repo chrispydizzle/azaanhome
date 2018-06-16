@@ -29,7 +29,9 @@ if __name__ == '__main__':
         theTime = datetime.datetime.now()
         secret = open("top_secret.txt")
         my_secret = secret.read()
-        times = urllib2.urlopen('http://muslimsalat.com/newyork.json?key=' + my_secret)
+        urlopener = urllib2.build_opener()
+        urlopener.addheaders = [('User-Agent', 'Mozilla/5.0')]
+        times = urlopener.open('http://muslimsalat.com/newyork.json?key=' + my_secret)
         posts = json.loads(times.read())
         items = posts['items'][0]
         dateFor = datetime.datetime.strptime(items['date_for'], '%Y-%m-%d')
